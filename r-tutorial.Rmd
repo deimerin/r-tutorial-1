@@ -2,7 +2,6 @@
 title: "R Tutorial"
 output:
   html_notebook: default
-  pdf_document: default
 ---
 
 # R Tuturial
