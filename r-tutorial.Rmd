@@ -1,23 +1,36 @@
 ---
-title: "R Tutorial"
+title: " Desarrollo de un Tutorial R"
+author: "Rances Rodriguez-, Deimer Castillo -, Iveth Medina -2183199"
+date: '2022-06-11'
 output:
   html_notebook: default
 ---
 
-# R Tuturial
-### 
-###
+### 1. Estructuras de control en R
+##### 1.1 If
+##### 1.2 For
+```{r }
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code.
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
-
-```{r}
-plot(cars)
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+### 2. Vectores en R
+##### 2.1 Creación de vectores
+```{r creacion}
+c(1, 2, 3, 4)
+```
+##### 2.2 Indexación de vectores
+##### 2.3 Edición de vectores
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+### 3. Listas y matrices en R
+##### 3.1 Operaciones básicas 
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+### 4. Dataframes
+##### 4.1 Visualización y manipulación
+
+### 5. Funciones en R
+
+### 6. Manejo de archivos con R
+
+### 7. Ejemplos de visualización de datos
+
+
