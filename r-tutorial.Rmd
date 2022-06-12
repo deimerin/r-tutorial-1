@@ -1,6 +1,6 @@
 ---
 title: " Desarrollo de un Tutorial R"
-author: "Rances Rodriguez-, Deimer Castillo -, Iveth Medina -2183199"
+author: "Rances Rodriguez-, Deimer Castillo - 2101154, Iveth Medina -2183199"
 date: '2022-06-11'
 output:
   html_notebook: default
@@ -31,6 +31,169 @@ c(1, 2, 3, 4)
 
 ### 6. Manejo de archivos con R
 
+#### **fs**
+Existen diferentes maneras de manejar archivos con R. Para este tutorial mostraremos como manejar archivos con el paquete **fs**, que proporciona una interfaz uniforme y multiplataforma para las operaciones del sistema de archivos. Las funciones del paquete fs se dividen en cuatro categorias principales: 
+
+- path_: para manipular y contruir rutas
+- file_: para manipular y construir archivos
+- dir_: para manipular y construir carpetas
+- links_: para manipular y construir enlaces
+
+```{r}
+library(fs)
+library(tidyverse)
+```
+
+A continuacion se presentan algunas acciones basicas para manipular archivos en R. Para una lista completa de las funcionalidades de el paquete **fs** revisar la documentacion [Package ‘fs’](https://cran.r-project.org/web/packages/fs/fs.pdf) 
+
+#### copy --- Copia archivos, carpetas o enlaces
+
+##### Descripcion
+- file_copy() copia archivos.
+- link_copy() crea un nuevo enlace apuntando a la misma ubicacion del enlace anterior.
+- dir_copy() copia un directorio recursivamente en una nueva ubicacion.
+
+##### Uso
+- file_copy(path, new_path, overwrite = FALSE)
+- dir_copy(path, new_path, overwrite = FALSE)
+- link_copy(path, new_path, overwrite = FALSE)
+
+##### Argumentos
+- path Un vector de caracteres de uno o mas rutas.
+- new_path Un vector de caracteres de rutas a nuevas ubicaciones.
+- overwrite Sobrescribe archivos si existen. Si es FALSE y el archivo existe generara un error.
+
+##### Ejemplos
+
+```{r}
+
+file_create("foo")
+file_copy("foo", "bar")
+# try(file_copy("foo", "bar"))
+file_copy("foo", "bar", overwrite = TRUE)
+file_delete(c("foo", "bar"))
+dir_create("foo")
+
+# Create a directory and put a few files in it
+files <- file_create(c("foo/bar", "foo/baz"))
+file_exists(files)
+
+# Copy the directory
+dir_copy("foo", "foo2")
+file_exists(path("foo2", path_file(files)))
+
+# Create a link to the directory
+link_create(path_abs("foo"), "loo")
+link_path("loo")
+link_copy("loo", "loo2")
+link_path("loo2")
+
+# Cleanup
+dir_delete(c("foo", "foo2"))
+link_delete(c("loo", "loo2"))
+
+```
+
+
+#### create --- Crea archivos, carpetas, o enlaces
+
+##### Descripcion
+The functions file_create() and dir_create() ensure that path exists; if it already exists it will
+be left unchanged. That means that compared to file.create(), file_create() will not trun-
+cate an existing file, and compared to dir.create(), dir_create() will silently ignore existing
+directories.
+
+##### Uso
+- file_create(path, ..., mode = "u=rw,go=r")
+- dir_create(path, ..., mode = "u=rwx,go=rx", recurse = TRUE, recursive)
+- link_create(path, new_path, symbolic = TRUE)
+
+##### Argumentos
+path A character vector of one or more paths. For link_create(), this is the target.
+... Additional arguments passed to path()
+mode If file/directory is created, what mode should it have?
+Links do not have mode; they inherit the mode of the file they link to.
+recurse should intermediate directories be created if they do not exist?
+recursive (Deprecated) If TRUE recurse fully.
+new_path The path where the link should be created.
+symbolic Boolean value determining if the link should be a symbolic (the default) or hard
+link.
+
+##### Ejemplos
+
+```{r}
+file_create("foo")
+is_file("foo")
+# dir_create applied to the same path will fail
+try(dir_create("foo"))
+dir_create("bar")
+is_dir("bar")
+# file_create applied to the same path will fail
+try(file_create("bar"))
+# Cleanup
+file_delete("foo")
+dir_delete("bar")
+```
+
+#### delete --- Elimina archivos, carpetas y enlaces
+
+##### Description
+file_delete() and link_delete() delete file and links. Compared to file.remove they always
+fail if they cannot delete the object rather than changing return value or signalling a warning. If any
+inputs are directories, they are passed to dir_delete(), so file_delete() can therefore be used
+to delete any filesystem object.
+dir_delete() will first delete the contents of the directory, then remove the directory. Compared
+to unlink it will always throw an error if the directory cannot be deleted rather than being silent or
+signalling a warning.
+
+##### Uso
+- file_delete(path)
+- dir_delete(path)
+- link_delete(path)
+
+##### Arguments
+path A character vector of one or more paths.
+
+##### Examples
+```{r}
+# create a directory, with some files and a link to it
+dir_create("dir")
+files <- file_create(path("dir", letters[1:5]))
+link <- link_create(path_abs("dir"), "link")
+# All files created
+dir_exists("dir")
+file_exists(files)
+link_exists("link")
+file_exists(link_path("link"))
+# Delete a file
+file_delete(files[1])
+file_exists(files[1])
+# Delete the directory (which deletes the files as well)
+dir_delete("dir")
+file_exists(files)
+dir_exists("dir")
+# The link still exists, but what it points to does not.
+link_exists("link")
+dir_exists(link_path("link"))
+# Delete the link
+link_delete("link")
+link_exists("link")
+```
+
+
+#### **readr**
+
+
+
+
+
+
+
 ### 7. Ejemplos de visualización de datos
+
+```{r}
+
+```
+
 
 

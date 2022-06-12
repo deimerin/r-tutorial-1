@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Rances Rodriguez-, Deimer Castillo -, Iveth Medina -2183199" />
+<meta name="author" content="Rances Rodriguez-, Deimer Castillo - 2101154, Iveth Medina -2183199" />
 
 <meta name="date" content="2022-06-11" />
 
@@ -216,7 +216,7 @@ pre code {
 
 
 <h1 class="title toc-ignore">Desarrollo de un Tutorial R</h1>
-<h4 class="author">Rances Rodriguez-, Deimer Castillo -, Iveth Medina -2183199</h4>
+<h4 class="author">Rances Rodriguez-, Deimer Castillo - 2101154, Iveth Medina -2183199</h4>
 <h4 class="date">2022-06-11</h4>
 
 </div>
@@ -272,13 +272,165 @@ pre code {
 </div>
 <div id="manejo-de-archivos-con-r" class="section level3">
 <h3>6. Manejo de archivos con R</h3>
+<div id="fs" class="section level4">
+<h4><strong>fs</strong></h4>
+<p>Existen diferentes maneras de manejar archivos con R. Para este tutorial mostraremos como manejar archivos con el paquete <strong>fs</strong>, que proporciona una interfaz uniforme y multiplataforma para las operaciones del sistema de archivos. Las funciones del paquete fs se dividen en cuatro categorias principales:</p>
+<ul>
+<li>path_: para manipular y contruir rutas</li>
+<li>file_: para manipular y construir archivos</li>
+<li>dir_: para manipular y construir carpetas</li>
+<li>links_: para manipular y construir enlaces</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>A continuacion se presentan algunas acciones basicas para manipular archivos en R. Para una lista completa de las funcionalidades de el paquete <strong>fs</strong> revisar la documentacion <a href="https://cran.r-project.org/web/packages/fs/fs.pdf">Package ‘fs’</a></p>
+</div>
+<div id="copy-copia-archivos-carpetas-o-enlaces" class="section level4">
+<h4>copy — Copia archivos, carpetas o enlaces</h4>
+<div id="descripcion" class="section level5">
+<h5>Descripcion</h5>
+<ul>
+<li>file_copy() copia archivos.</li>
+<li>link_copy() crea un nuevo enlace apuntando a la misma ubicacion del enlace anterior.</li>
+<li>dir_copy() copia un directorio recursivamente en una nueva ubicacion.</li>
+</ul>
+</div>
+<div id="uso" class="section level5">
+<h5>Uso</h5>
+<ul>
+<li>file_copy(path, new_path, overwrite = FALSE)</li>
+<li>dir_copy(path, new_path, overwrite = FALSE)</li>
+<li>link_copy(path, new_path, overwrite = FALSE)</li>
+</ul>
+</div>
+<div id="argumentos" class="section level5">
+<h5>Argumentos</h5>
+<ul>
+<li>path Un vector de caracteres de uno o mas rutas.</li>
+<li>new_path Un vector de caracteres de rutas a nuevas ubicaciones.</li>
+<li>overwrite Sobrescribe archivos si existen. Si es FALSE y el archivo existe generara un error.</li>
+</ul>
+</div>
+<div id="ejemplos" class="section level5">
+<h5>Ejemplos</h5>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJ5KGZpbGVfY29weShcImZvb1wiLCBcImJhclwiKSlcblxuYGBgIn0= -->
+<pre class="r"><code>try(file_copy(&quot;foo&quot;, &quot;bar&quot;))
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgOiBbRUVYSVNUXSBGYWlsZWQgdG8gY29weSAnZm9vJyB0byAnYmFyJzogZmlsZSBhbHJlYWR5IGV4aXN0c1xuIn0= -->
+<pre><code>Error : [EEXIST] Failed to copy &#39;foo&#39; to &#39;bar&#39;: file already exists</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="create-crea-archivos-carpetas-o-enlaces" class="section level4">
+<h4>create — Crea archivos, carpetas, o enlaces</h4>
+<div id="descripcion-1" class="section level5">
+<h5>Descripcion</h5>
+<p>The functions file_create() and dir_create() ensure that path exists; if it already exists it will be left unchanged. That means that compared to file.create(), file_create() will not trun- cate an existing file, and compared to dir.create(), dir_create() will silently ignore existing directories.</p>
+</div>
+<div id="uso-1" class="section level5">
+<h5>Uso</h5>
+<ul>
+<li>file_create(path, …, mode = “u=rw,go=r”)</li>
+<li>dir_create(path, …, mode = “u=rwx,go=rx”, recurse = TRUE, recursive)</li>
+<li>link_create(path, new_path, symbolic = TRUE)</li>
+</ul>
+</div>
+<div id="argumentos-1" class="section level5">
+<h5>Argumentos</h5>
+<p>path A character vector of one or more paths. For link_create(), this is the target. … Additional arguments passed to path() mode If file/directory is created, what mode should it have? Links do not have mode; they inherit the mode of the file they link to. recurse should intermediate directories be created if they do not exist? recursive (Deprecated) If TRUE recurse fully. new_path The path where the link should be created. symbolic Boolean value determining if the link should be a symbolic (the default) or hard link.</p>
+</div>
+<div id="ejemplos-1" class="section level5">
+<h5>Ejemplos</h5>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmlsZV9jcmVhdGUoXCJmb29cIilcbmlzX2ZpbGUoXCJmb29cIilcbiMgZGlyX2NyZWF0ZSBhcHBsaWVkIHRvIHRoZSBzYW1lIHBhdGggd2lsbCBmYWlsXG50cnkoZGlyX2NyZWF0ZShcImZvb1wiKSlcbmRpcl9jcmVhdGUoXCJiYXJcIilcbmlzX2RpcihcImJhclwiKVxuIyBmaWxlX2NyZWF0ZSBhcHBsaWVkIHRvIHRoZSBzYW1lIHBhdGggd2lsbCBmYWlsXG50cnkoZmlsZV9jcmVhdGUoXCJiYXJcIikpXG4jIENsZWFudXBcbmZpbGVfZGVsZXRlKFwiZm9vXCIpXG5kaXJfZGVsZXRlKFwiYmFyXCIpXG5gYGAifQ== -->
+<pre class="r"><code>file_create(&quot;foo&quot;)
+is_file(&quot;foo&quot;)
+# dir_create applied to the same path will fail
+try(dir_create(&quot;foo&quot;))
+dir_create(&quot;bar&quot;)
+is_dir(&quot;bar&quot;)
+# file_create applied to the same path will fail
+try(file_create(&quot;bar&quot;))
+# Cleanup
+file_delete(&quot;foo&quot;)
+dir_delete(&quot;bar&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="delete-elimina-archivos-carpetas-y-enlaces" class="section level4">
+<h4>delete — Elimina archivos, carpetas y enlaces</h4>
+<div id="description" class="section level5">
+<h5>Description</h5>
+<p>file_delete() and link_delete() delete file and links. Compared to file.remove they always fail if they cannot delete the object rather than changing return value or signalling a warning. If any inputs are directories, they are passed to dir_delete(), so file_delete() can therefore be used to delete any filesystem object. dir_delete() will first delete the contents of the directory, then remove the directory. Compared to unlink it will always throw an error if the directory cannot be deleted rather than being silent or signalling a warning.</p>
+</div>
+<div id="uso-2" class="section level5">
+<h5>Uso</h5>
+<ul>
+<li>file_delete(path)</li>
+<li>dir_delete(path)</li>
+<li>link_delete(path)</li>
+</ul>
+</div>
+<div id="arguments" class="section level5">
+<h5>Arguments</h5>
+<p>path A character vector of one or more paths.</p>
+</div>
+<div id="examples" class="section level5">
+<h5>Examples</h5>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjcmVhdGUgYSBkaXJlY3RvcnksIHdpdGggc29tZSBmaWxlcyBhbmQgYSBsaW5rIHRvIGl0XG5kaXJfY3JlYXRlKFwiZGlyXCIpXG5maWxlcyA8LSBmaWxlX2NyZWF0ZShwYXRoKFwiZGlyXCIsIGxldHRlcnNbMTo1XSkpXG5saW5rIDwtIGxpbmtfY3JlYXRlKHBhdGhfYWJzKFwiZGlyXCIpLCBcImxpbmtcIilcbiMgQWxsIGZpbGVzIGNyZWF0ZWRcbmRpcl9leGlzdHMoXCJkaXJcIilcbmZpbGVfZXhpc3RzKGZpbGVzKVxubGlua19leGlzdHMoXCJsaW5rXCIpXG5maWxlX2V4aXN0cyhsaW5rX3BhdGgoXCJsaW5rXCIpKVxuIyBEZWxldGUgYSBmaWxlXG5maWxlX2RlbGV0ZShmaWxlc1sxXSlcbmZpbGVfZXhpc3RzKGZpbGVzWzFdKVxuIyBEZWxldGUgdGhlIGRpcmVjdG9yeSAod2hpY2ggZGVsZXRlcyB0aGUgZmlsZXMgYXMgd2VsbClcbmRpcl9kZWxldGUoXCJkaXJcIilcbmZpbGVfZXhpc3RzKGZpbGVzKVxuZGlyX2V4aXN0cyhcImRpclwiKVxuIyBUaGUgbGluayBzdGlsbCBleGlzdHMsIGJ1dCB3aGF0IGl0IHBvaW50cyB0byBkb2VzIG5vdC5cbmxpbmtfZXhpc3RzKFwibGlua1wiKVxuZGlyX2V4aXN0cyhsaW5rX3BhdGgoXCJsaW5rXCIpKVxuIyBEZWxldGUgdGhlIGxpbmtcbmxpbmtfZGVsZXRlKFwibGlua1wiKVxubGlua19leGlzdHMoXCJsaW5rXCIpXG5gYGAifQ== -->
+<pre class="r"><code># create a directory, with some files and a link to it
+dir_create(&quot;dir&quot;)
+files &lt;- file_create(path(&quot;dir&quot;, letters[1:5]))
+link &lt;- link_create(path_abs(&quot;dir&quot;), &quot;link&quot;)
+# All files created
+dir_exists(&quot;dir&quot;)
+file_exists(files)
+link_exists(&quot;link&quot;)
+file_exists(link_path(&quot;link&quot;))
+# Delete a file
+file_delete(files[1])
+file_exists(files[1])
+# Delete the directory (which deletes the files as well)
+dir_delete(&quot;dir&quot;)
+file_exists(files)
+dir_exists(&quot;dir&quot;)
+# The link still exists, but what it points to does not.
+link_exists(&quot;link&quot;)
+dir_exists(link_path(&quot;link&quot;))
+# Delete the link
+link_delete(&quot;link&quot;)
+link_exists(&quot;link&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="readr" class="section level4">
+<h4><strong>readr</strong></h4>
+</div>
 </div>
 <div id="ejemplos-de-visualización-de-datos" class="section level3">
 <h3>7. Ejemplos de visualización de datos</h3>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiIERlc2Fycm9sbG8gZGUgdW4gVHV0b3JpYWwgUiIKYXV0aG9yOiAiUmFuY2VzIFJvZHJpZ3Vlei0sIERlaW1lciBDYXN0aWxsbyAtLCBJdmV0aCBNZWRpbmEgLTIxODMxOTkiCmRhdGU6ICcyMDIyLTA2LTExJwpvdXRwdXQ6CiAgaHRtbF9ub3RlYm9vazogZGVmYXVsdAotLS0KCiMjIyAxLiBFc3RydWN0dXJhcyBkZSBjb250cm9sIGVuIFIKIyMjIyMgMS4xIElmCiMjIyMjIDEuMiBGb3IKYGBge3IgfQoKYGBgCgojIyMgMi4gVmVjdG9yZXMgZW4gUgojIyMjIyAyLjEgQ3JlYWNpw7NuIGRlIHZlY3RvcmVzCmBgYHtyIGNyZWFjaW9ufQpjKDEsIDIsIDMsIDQpCmBgYAojIyMjIyAyLjIgSW5kZXhhY2nDs24gZGUgdmVjdG9yZXMKIyMjIyMgMi4zIEVkaWNpw7NuIGRlIHZlY3RvcmVzCgojIyMgMy4gTGlzdGFzIHkgbWF0cmljZXMgZW4gUgojIyMjIyAzLjEgT3BlcmFjaW9uZXMgYsOhc2ljYXMgCgojIyMgNC4gRGF0YWZyYW1lcwojIyMjIyA0LjEgVmlzdWFsaXphY2nDs24geSBtYW5pcHVsYWNpw7NuCgojIyMgNS4gRnVuY2lvbmVzIGVuIFIKCiMjIyA2LiBNYW5lam8gZGUgYXJjaGl2b3MgY29uIFIKCiMjIyA3LiBFamVtcGxvcyBkZSB2aXN1YWxpemFjacOzbiBkZSBkYXRvcwoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiIERlc2Fycm9sbG8gZGUgdW4gVHV0b3JpYWwgUiIKYXV0aG9yOiAiUmFuY2VzIFJvZHJpZ3Vlei0sIERlaW1lciBDYXN0aWxsbyAtIDIxMDExNTQsIEl2ZXRoIE1lZGluYSAtMjE4MzE5OSIKZGF0ZTogJzIwMjItMDYtMTEnCm91dHB1dDoKICBodG1sX25vdGVib29rOiBkZWZhdWx0Ci0tLQoKIyMjIDEuIEVzdHJ1Y3R1cmFzIGRlIGNvbnRyb2wgZW4gUgojIyMjIyAxLjEgSWYKIyMjIyMgMS4yIEZvcgpgYGB7ciB9CgpgYGAKCiMjIyAyLiBWZWN0b3JlcyBlbiBSCiMjIyMjIDIuMSBDcmVhY2nDs24gZGUgdmVjdG9yZXMKYGBge3IgY3JlYWNpb259CmMoMSwgMiwgMywgNCkKYGBgCiMjIyMjIDIuMiBJbmRleGFjacOzbiBkZSB2ZWN0b3JlcwojIyMjIyAyLjMgRWRpY2nDs24gZGUgdmVjdG9yZXMKCiMjIyAzLiBMaXN0YXMgeSBtYXRyaWNlcyBlbiBSCiMjIyMjIDMuMSBPcGVyYWNpb25lcyBiw6FzaWNhcyAKCiMjIyA0LiBEYXRhZnJhbWVzCiMjIyMjIDQuMSBWaXN1YWxpemFjacOzbiB5IG1hbmlwdWxhY2nDs24KCiMjIyA1LiBGdW5jaW9uZXMgZW4gUgoKIyMjIDYuIE1hbmVqbyBkZSBhcmNoaXZvcyBjb24gUgoKIyMjIyAqKmZzKioKRXhpc3RlbiBkaWZlcmVudGVzIG1hbmVyYXMgZGUgbWFuZWphciBhcmNoaXZvcyBjb24gUi4gUGFyYSBlc3RlIHR1dG9yaWFsIG1vc3RyYXJlbW9zIGNvbW8gbWFuZWphciBhcmNoaXZvcyBjb24gZWwgcGFxdWV0ZSAqKmZzKiosIHF1ZSBwcm9wb3JjaW9uYSB1bmEgaW50ZXJmYXogdW5pZm9ybWUgeSBtdWx0aXBsYXRhZm9ybWEgcGFyYSBsYXMgb3BlcmFjaW9uZXMgZGVsIHNpc3RlbWEgZGUgYXJjaGl2b3MuIExhcyBmdW5jaW9uZXMgZGVsIHBhcXVldGUgZnMgc2UgZGl2aWRlbiBlbiBjdWF0cm8gY2F0ZWdvcmlhcyBwcmluY2lwYWxlczogCgotIHBhdGhfOiBwYXJhIG1hbmlwdWxhciB5IGNvbnRydWlyIHJ1dGFzCi0gZmlsZV86IHBhcmEgbWFuaXB1bGFyIHkgY29uc3RydWlyIGFyY2hpdm9zCi0gZGlyXzogcGFyYSBtYW5pcHVsYXIgeSBjb25zdHJ1aXIgY2FycGV0YXMKLSBsaW5rc186IHBhcmEgbWFuaXB1bGFyIHkgY29uc3RydWlyIGVubGFjZXMKCmBgYHtyfQpsaWJyYXJ5KGZzKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKYGBgCgpBIGNvbnRpbnVhY2lvbiBzZSBwcmVzZW50YW4gYWxndW5hcyBhY2Npb25lcyBiYXNpY2FzIHBhcmEgbWFuaXB1bGFyIGFyY2hpdm9zIGVuIFIuIFBhcmEgdW5hIGxpc3RhIGNvbXBsZXRhIGRlIGxhcyBmdW5jaW9uYWxpZGFkZXMgZGUgZWwgcGFxdWV0ZSAqKmZzKiogcmV2aXNhciBsYSBkb2N1bWVudGFjaW9uIFtQYWNrYWdlIOKAmGZz4oCZXShodHRwczovL2NyYW4uci1wcm9qZWN0Lm9yZy93ZWIvcGFja2FnZXMvZnMvZnMucGRmKSAKCiMjIyMgY29weSAtLS0gQ29waWEgYXJjaGl2b3MsIGNhcnBldGFzIG8gZW5sYWNlcwoKIyMjIyMgRGVzY3JpcGNpb24KLSBmaWxlX2NvcHkoKSBjb3BpYSBhcmNoaXZvcy4KLSBsaW5rX2NvcHkoKSBjcmVhIHVuIG51ZXZvIGVubGFjZSBhcHVudGFuZG8gYSBsYSBtaXNtYSB1YmljYWNpb24gZGVsIGVubGFjZSBhbnRlcmlvci4KLSBkaXJfY29weSgpIGNvcGlhIHVuIGRpcmVjdG9yaW8gcmVjdXJzaXZhbWVudGUgZW4gdW5hIG51ZXZhIHViaWNhY2lvbi4KCiMjIyMjIFVzbwotIGZpbGVfY29weShwYXRoLCBuZXdfcGF0aCwgb3ZlcndyaXRlID0gRkFMU0UpCi0gZGlyX2NvcHkocGF0aCwgbmV3X3BhdGgsIG92ZXJ3cml0ZSA9IEZBTFNFKQotIGxpbmtfY29weShwYXRoLCBuZXdfcGF0aCwgb3ZlcndyaXRlID0gRkFMU0UpCgojIyMjIyBBcmd1bWVudG9zCi0gcGF0aCBVbiB2ZWN0b3IgZGUgY2FyYWN0ZXJlcyBkZSB1bm8gbyBtYXMgcnV0YXMuCi0gbmV3X3BhdGggVW4gdmVjdG9yIGRlIGNhcmFjdGVyZXMgZGUgcnV0YXMgYSBudWV2YXMgdWJpY2FjaW9uZXMuCi0gb3ZlcndyaXRlIFNvYnJlc2NyaWJlIGFyY2hpdm9zIHNpIGV4aXN0ZW4uIFNpIGVzIEZBTFNFIHkgZWwgYXJjaGl2byBleGlzdGUgZ2VuZXJhcmEgdW4gZXJyb3IuCgojIyMjIyBFamVtcGxvcwoKYGBge3J9CgpmaWxlX2NyZWF0ZSgiZm9vIikKZmlsZV9jb3B5KCJmb28iLCAiYmFyIikKIyB0cnkoZmlsZV9jb3B5KCJmb28iLCAiYmFyIikpCmZpbGVfY29weSgiZm9vIiwgImJhciIsIG92ZXJ3cml0ZSA9IFRSVUUpCmZpbGVfZGVsZXRlKGMoImZvbyIsICJiYXIiKSkKZGlyX2NyZWF0ZSgiZm9vIikKCiMgQ3JlYXRlIGEgZGlyZWN0b3J5IGFuZCBwdXQgYSBmZXcgZmlsZXMgaW4gaXQKZmlsZXMgPC0gZmlsZV9jcmVhdGUoYygiZm9vL2JhciIsICJmb28vYmF6IikpCmZpbGVfZXhpc3RzKGZpbGVzKQoKIyBDb3B5IHRoZSBkaXJlY3RvcnkKZGlyX2NvcHkoImZvbyIsICJmb28yIikKZmlsZV9leGlzdHMocGF0aCgiZm9vMiIsIHBhdGhfZmlsZShmaWxlcykpKQoKIyBDcmVhdGUgYSBsaW5rIHRvIHRoZSBkaXJlY3RvcnkKbGlua19jcmVhdGUocGF0aF9hYnMoImZvbyIpLCAibG9vIikKbGlua19wYXRoKCJsb28iKQpsaW5rX2NvcHkoImxvbyIsICJsb28yIikKbGlua19wYXRoKCJsb28yIikKCiMgQ2xlYW51cApkaXJfZGVsZXRlKGMoImZvbyIsICJmb28yIikpCmxpbmtfZGVsZXRlKGMoImxvbyIsICJsb28yIikpCgpgYGAKCgojIyMjIGNyZWF0ZSAtLS0gQ3JlYSBhcmNoaXZvcywgY2FycGV0YXMsIG8gZW5sYWNlcwoKIyMjIyMgRGVzY3JpcGNpb24KVGhlIGZ1bmN0aW9ucyBmaWxlX2NyZWF0ZSgpIGFuZCBkaXJfY3JlYXRlKCkgZW5zdXJlIHRoYXQgcGF0aCBleGlzdHM7IGlmIGl0IGFscmVhZHkgZXhpc3RzIGl0IHdpbGwKYmUgbGVmdCB1bmNoYW5nZWQuIFRoYXQgbWVhbnMgdGhhdCBjb21wYXJlZCB0byBmaWxlLmNyZWF0ZSgpLCBmaWxlX2NyZWF0ZSgpIHdpbGwgbm90IHRydW4tCmNhdGUgYW4gZXhpc3RpbmcgZmlsZSwgYW5kIGNvbXBhcmVkIHRvIGRpci5jcmVhdGUoKSwgZGlyX2NyZWF0ZSgpIHdpbGwgc2lsZW50bHkgaWdub3JlIGV4aXN0aW5nCmRpcmVjdG9yaWVzLgoKIyMjIyMgVXNvCi0gZmlsZV9jcmVhdGUocGF0aCwgLi4uLCBtb2RlID0gInU9cncsZ289ciIpCi0gZGlyX2NyZWF0ZShwYXRoLCAuLi4sIG1vZGUgPSAidT1yd3gsZ289cngiLCByZWN1cnNlID0gVFJVRSwgcmVjdXJzaXZlKQotIGxpbmtfY3JlYXRlKHBhdGgsIG5ld19wYXRoLCBzeW1ib2xpYyA9IFRSVUUpCgojIyMjIyBBcmd1bWVudG9zCnBhdGggQSBjaGFyYWN0ZXIgdmVjdG9yIG9mIG9uZSBvciBtb3JlIHBhdGhzLiBGb3IgbGlua19jcmVhdGUoKSwgdGhpcyBpcyB0aGUgdGFyZ2V0LgouLi4gQWRkaXRpb25hbCBhcmd1bWVudHMgcGFzc2VkIHRvIHBhdGgoKQptb2RlIElmIGZpbGUvZGlyZWN0b3J5IGlzIGNyZWF0ZWQsIHdoYXQgbW9kZSBzaG91bGQgaXQgaGF2ZT8KTGlua3MgZG8gbm90IGhhdmUgbW9kZTsgdGhleSBpbmhlcml0IHRoZSBtb2RlIG9mIHRoZSBmaWxlIHRoZXkgbGluayB0by4KcmVjdXJzZSBzaG91bGQgaW50ZXJtZWRpYXRlIGRpcmVjdG9yaWVzIGJlIGNyZWF0ZWQgaWYgdGhleSBkbyBub3QgZXhpc3Q/CnJlY3Vyc2l2ZSAoRGVwcmVjYXRlZCkgSWYgVFJVRSByZWN1cnNlIGZ1bGx5LgpuZXdfcGF0aCBUaGUgcGF0aCB3aGVyZSB0aGUgbGluayBzaG91bGQgYmUgY3JlYXRlZC4Kc3ltYm9saWMgQm9vbGVhbiB2YWx1ZSBkZXRlcm1pbmluZyBpZiB0aGUgbGluayBzaG91bGQgYmUgYSBzeW1ib2xpYyAodGhlIGRlZmF1bHQpIG9yIGhhcmQKbGluay4KCiMjIyMjIEVqZW1wbG9zCgpgYGB7cn0KZmlsZV9jcmVhdGUoImZvbyIpCmlzX2ZpbGUoImZvbyIpCiMgZGlyX2NyZWF0ZSBhcHBsaWVkIHRvIHRoZSBzYW1lIHBhdGggd2lsbCBmYWlsCnRyeShkaXJfY3JlYXRlKCJmb28iKSkKZGlyX2NyZWF0ZSgiYmFyIikKaXNfZGlyKCJiYXIiKQojIGZpbGVfY3JlYXRlIGFwcGxpZWQgdG8gdGhlIHNhbWUgcGF0aCB3aWxsIGZhaWwKdHJ5KGZpbGVfY3JlYXRlKCJiYXIiKSkKIyBDbGVhbnVwCmZpbGVfZGVsZXRlKCJmb28iKQpkaXJfZGVsZXRlKCJiYXIiKQpgYGAKCiMjIyMgZGVsZXRlIC0tLSBFbGltaW5hIGFyY2hpdm9zLCBjYXJwZXRhcyB5IGVubGFjZXMKCiMjIyMjIERlc2NyaXB0aW9uCmZpbGVfZGVsZXRlKCkgYW5kIGxpbmtfZGVsZXRlKCkgZGVsZXRlIGZpbGUgYW5kIGxpbmtzLiBDb21wYXJlZCB0byBmaWxlLnJlbW92ZSB0aGV5IGFsd2F5cwpmYWlsIGlmIHRoZXkgY2Fubm90IGRlbGV0ZSB0aGUgb2JqZWN0IHJhdGhlciB0aGFuIGNoYW5naW5nIHJldHVybiB2YWx1ZSBvciBzaWduYWxsaW5nIGEgd2FybmluZy4gSWYgYW55CmlucHV0cyBhcmUgZGlyZWN0b3JpZXMsIHRoZXkgYXJlIHBhc3NlZCB0byBkaXJfZGVsZXRlKCksIHNvIGZpbGVfZGVsZXRlKCkgY2FuIHRoZXJlZm9yZSBiZSB1c2VkCnRvIGRlbGV0ZSBhbnkgZmlsZXN5c3RlbSBvYmplY3QuCmRpcl9kZWxldGUoKSB3aWxsIGZpcnN0IGRlbGV0ZSB0aGUgY29udGVudHMgb2YgdGhlIGRpcmVjdG9yeSwgdGhlbiByZW1vdmUgdGhlIGRpcmVjdG9yeS4gQ29tcGFyZWQKdG8gdW5saW5rIGl0IHdpbGwgYWx3YXlzIHRocm93IGFuIGVycm9yIGlmIHRoZSBkaXJlY3RvcnkgY2Fubm90IGJlIGRlbGV0ZWQgcmF0aGVyIHRoYW4gYmVpbmcgc2lsZW50IG9yCnNpZ25hbGxpbmcgYSB3YXJuaW5nLgoKIyMjIyMgVXNvCi0gZmlsZV9kZWxldGUocGF0aCkKLSBkaXJfZGVsZXRlKHBhdGgpCi0gbGlua19kZWxldGUocGF0aCkKCiMjIyMjIEFyZ3VtZW50cwpwYXRoIEEgY2hhcmFjdGVyIHZlY3RvciBvZiBvbmUgb3IgbW9yZSBwYXRocy4KCiMjIyMjIEV4YW1wbGVzCmBgYHtyfQojIGNyZWF0ZSBhIGRpcmVjdG9yeSwgd2l0aCBzb21lIGZpbGVzIGFuZCBhIGxpbmsgdG8gaXQKZGlyX2NyZWF0ZSgiZGlyIikKZmlsZXMgPC0gZmlsZV9jcmVhdGUocGF0aCgiZGlyIiwgbGV0dGVyc1sxOjVdKSkKbGluayA8LSBsaW5rX2NyZWF0ZShwYXRoX2FicygiZGlyIiksICJsaW5rIikKIyBBbGwgZmlsZXMgY3JlYXRlZApkaXJfZXhpc3RzKCJkaXIiKQpmaWxlX2V4aXN0cyhmaWxlcykKbGlua19leGlzdHMoImxpbmsiKQpmaWxlX2V4aXN0cyhsaW5rX3BhdGgoImxpbmsiKSkKIyBEZWxldGUgYSBmaWxlCmZpbGVfZGVsZXRlKGZpbGVzWzFdKQpmaWxlX2V4aXN0cyhmaWxlc1sxXSkKIyBEZWxldGUgdGhlIGRpcmVjdG9yeSAod2hpY2ggZGVsZXRlcyB0aGUgZmlsZXMgYXMgd2VsbCkKZGlyX2RlbGV0ZSgiZGlyIikKZmlsZV9leGlzdHMoZmlsZXMpCmRpcl9leGlzdHMoImRpciIpCiMgVGhlIGxpbmsgc3RpbGwgZXhpc3RzLCBidXQgd2hhdCBpdCBwb2ludHMgdG8gZG9lcyBub3QuCmxpbmtfZXhpc3RzKCJsaW5rIikKZGlyX2V4aXN0cyhsaW5rX3BhdGgoImxpbmsiKSkKIyBEZWxldGUgdGhlIGxpbmsKbGlua19kZWxldGUoImxpbmsiKQpsaW5rX2V4aXN0cygibGluayIpCmBgYAoKCiMjIyMgKipyZWFkcioqCgoKCgoKCgojIyMgNy4gRWplbXBsb3MgZGUgdmlzdWFsaXphY2nDs24gZGUgZGF0b3MKCmBgYHtyfQoKYGBgCgoKCg==</div>
 
 
 
