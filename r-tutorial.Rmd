@@ -36,17 +36,16 @@ Existen diferentes maneras de manejar archivos con R. Para este tutorial mostrar
 
 - path_: para manipular y contruir rutas
 - file_: para manipular y construir archivos
-- dir_: para manipular y construir carpetas
+- dir_: para manipular y construir directorios
 - links_: para manipular y construir enlaces
 
 ```{r}
 library(fs)
-library(tidyverse)
 ```
 
 A continuacion se presentan algunas acciones basicas para manipular archivos en R. Para una lista completa de las funcionalidades de el paquete **fs** revisar la documentacion [Package ‘fs’](https://cran.r-project.org/web/packages/fs/fs.pdf) 
 
-#### copy --- Copia archivos, carpetas o enlaces
+#### copy --- Copia archivos, directorios o enlaces
 
 ##### Descripcion
 - file_copy() copia archivos.
@@ -59,7 +58,7 @@ A continuacion se presentan algunas acciones basicas para manipular archivos en 
 - link_copy(path, new_path, overwrite = FALSE)
 
 ##### Argumentos
-- path Un vector de caracteres de uno o mas rutas.
+- path Un vector de caracteres de una o mas rutas.
 - new_path Un vector de caracteres de rutas a nuevas ubicaciones.
 - overwrite Sobrescribe archivos si existen. Si es FALSE y el archivo existe generara un error.
 
@@ -95,13 +94,10 @@ link_delete(c("loo", "loo2"))
 ```
 
 
-#### create --- Crea archivos, carpetas, o enlaces
+#### create --- Crea archivos, directorios, o enlaces
 
 ##### Descripcion
-The functions file_create() and dir_create() ensure that path exists; if it already exists it will
-be left unchanged. That means that compared to file.create(), file_create() will not trun-
-cate an existing file, and compared to dir.create(), dir_create() will silently ignore existing
-directories.
+Las funciones file_create() y dir_create() se aseguran de que la ruta existe; si ya existe se se dejará sin modificar. Esto significa que en comparación con file.create(), file_create() no truncará un archivo existente, y en comparación con dir.create(), dir_create() ignorará silenciosamente los directorios existentes.
 
 ##### Uso
 - file_create(path, ..., mode = "u=rw,go=r")
@@ -109,15 +105,13 @@ directories.
 - link_create(path, new_path, symbolic = TRUE)
 
 ##### Argumentos
-path A character vector of one or more paths. For link_create(), this is the target.
-... Additional arguments passed to path()
-mode If file/directory is created, what mode should it have?
-Links do not have mode; they inherit the mode of the file they link to.
-recurse should intermediate directories be created if they do not exist?
-recursive (Deprecated) If TRUE recurse fully.
-new_path The path where the link should be created.
-symbolic Boolean value determining if the link should be a symbolic (the default) or hard
-link.
+- path Un vector de caracteres de una o mas rutas. Para link_create(), este es el destino.
+- ... Argumentos adicionales pasados a path()
+- mode Si se crea un archivo/directorio, ¿qué modo debe tener? Los enlaces no tienen modo; heredan el modo del archivo al que enlazan.
+- recurse ¿se deben crear directorios intermedios si no existen?
+- recursive (Deprecated) Si es TRUE se recurre completamente.
+- new_path La ruta donde se debe crear el enlace.
+- symbolic Valor booleano que determina si el enlace debe ser simbólico (por defecto) o fuerte.
 
 ##### Ejemplos
 
@@ -135,26 +129,23 @@ file_delete("foo")
 dir_delete("bar")
 ```
 
-#### delete --- Elimina archivos, carpetas y enlaces
+#### delete --- Elimina archivos, directorios y enlaces
 
-##### Description
-file_delete() and link_delete() delete file and links. Compared to file.remove they always
-fail if they cannot delete the object rather than changing return value or signalling a warning. If any
-inputs are directories, they are passed to dir_delete(), so file_delete() can therefore be used
-to delete any filesystem object.
-dir_delete() will first delete the contents of the directory, then remove the directory. Compared
-to unlink it will always throw an error if the directory cannot be deleted rather than being silent or
-signalling a warning.
+##### Descripcion
+file_delete() y link_delete() elimina archivos y enlaces. En comparación con file.remove siempre
+falla si no pueden eliminar el objeto en lugar de cambiar el valor de retorno o señalar una advertencia. Si alguna de las entradas son directorios, se pasan a dir_delete(), por lo que file_delete() puede utilizarse para borrar cualquier objeto del sistema de archivos.
+
+dir_delete() borrará primero el contenido del directorio y luego eliminará el directorio.
 
 ##### Uso
 - file_delete(path)
 - dir_delete(path)
 - link_delete(path)
 
-##### Arguments
-path A character vector of one or more paths.
+##### Argumentos
+- path Un vector de caracteres de una o mas rutas.
 
-##### Examples
+##### Ejemplos
 ```{r}
 # create a directory, with some files and a link to it
 dir_create("dir")
@@ -180,16 +171,72 @@ link_delete("link")
 link_exists("link")
 ```
 
-
 #### **readr**
 
+El paquete **readr** ofrece funciones para leer data de archivos rectangulares en R. Este paquete hace parte del tidyverse base y sus funciones se ocupan de convertir archivos en data frames.
+```{r}
+library(tidyverse)
+```
+
+Para leer un conjunto de datos rectangulares con readr, se combinan dos partes: una función que analiza las líneas del archivo en campos individuales y una especificación de columna. Una especificación de columna describe cómo debe convertirse cada columna de un vector de caracteres a un tipo de datos específico (por ejemplo, carácter, numérico, fecha y hora, etc.). En ausencia de una especificación de columna, readr deducirá los tipos de columna a partir de los datos.
+
+readr soporta los siguientes formatos de archivo con estas funciones read_*():
+
+- read_csv(): archivos de valores separados por comas (CSV)
+- read_tsv(): archivos de valores separados por tabulaciones (TSV)
+- read_delim(): archivos delimitados (CSV y TSV son casos especiales importantes)
+- read_fwf(): archivos de ancho fijo
+- read_table(): archivos separados por espacios en blanco
+- read_log(): archivos de registro web
+
+Todas estas funciones tienen una sintaxis similar: una vez se domine una, se podran utilizar las demás con facilidad.
+
+El primer argumento de read_csv() es el más importante: es la ruta del archivo a leer. También se puede suministrar un archivo csv como argumento. Esto es útil para experimentar con readr y para crear ejemplos reproducibles:
+
+```{r}
+# Reading data from a CVS file
+read_csv('https://vincentarelbundock.github.io/Rdatasets/csv/AER/Guns.csv')
+```
+```{r}
+# Reading data from inline argument
+read_csv("a,b,c
+          1,2,3
+          4,5,6")
+```
 
 
+Cuando se ejecuta read_csv() se imprime una especificación de columna que da el nombre y el tipo de cada columna. A veces hay algunas líneas de metadatos en la parte superior del archivo. Se puede utilizar skip = n para omitir las primeras n líneas; o utilizar comment = "#" para eliminar todas las líneas que empiezan con (por ejemplo) #.
+
+```{r}
+read_csv("The first line of metadata
+          The second line of metadata
+          x,y,z
+          1,2,3", skip = 2)
+```
+```{r}
+read_csv("# A comment I want to skip
+          x,y,z
+          1,2,3", comment = "#")
+```
+
+
+Los datos pueden no tener nombres de columna. Se puede utilizar col_names = FALSE para indicar a read_csv() que no trate la primera fila como encabezados, y en su lugar los etiquete secuencialmente de $X_{1}$ a $X_{n}$:
+
+```{r}
+read_csv('https://vincentarelbundock.github.io/Rdatasets/csv/AER/Guns.csv', col_names = FALSE)
+```
+Otra opción que suele necesitar ajustes es na: especifica el valor (o los valores) que se utilizan para representar los valores que faltan en el archivo:
+
+```{r}
+read_csv("a,b,c\n1,2,.", na = ".")
+```
 
 
 
 
 ### 7. Ejemplos de visualización de datos
+
+### **ggplot**
 
 ```{r}
 
