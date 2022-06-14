@@ -236,11 +236,54 @@ read_csv("a,b,c\n1,2,.", na = ".")
 
 ### 7. Ejemplos de visualización de datos
 
-### **ggplot**
+### **ggplot2**
+
+**ggplot2** es un paquete potente y flexible de R, implementado por Hadley Wickham, para producir gráficos elegantes.
+
+El concepto detrás de ggplot2 divide los gráficos en tres partes fundamentales: **Plot = Datos + Estética + Geometría.**
+
+Los componentes principales de cada gráfico pueden definirse de la siguiente manera:
+
+- **Datos** es un dataframe
+- **Estetica** se utiliza para indicar las variables x e y. También se puede utilizar para controlar el color, el tamaño o la forma de los puntos, la altura de las barras, etc..... 
+- **Geometria** define el tipo de gráfico (histograma, diagrama de caja, diagrama de líneas, diagrama de densidad, diagrama de puntos, ....)
+
+Hay dos funciones principales en el paquete ggplot2: las funciones **qplot()** y **ggplot()**.
+
+- qplot() se refiere a un gráfico rápido, que puede utilizarse para producir fácilmente gráficos sencillos.
+
+- La función ggplot() es más flexible y robusta que qplot para construir un gráfico pieza por pieza.
 
 ```{r}
-
+library(tidyverse)
 ```
+
+#### **qplot()**
+
+Un formato simplificado de qplot() es el siguiente:
+```
+qplot(x, y=NULL, data, geom="auto", xlim = c(NA, NA), ylim =c(NA, NA))
+```
+- x : valores de x
+- y : valores de y(opcional)
+- data : data frame a usar (opcional).
+- geom : Vector de caracteres que especifica la geometria(geom) a utilizar. Por defecto es "point" si se especifican x, y, e "histogram" si sólo se especifica x.
+- xlim, ylim: limites del eje x, y
+
+#### Scatter Plots
+
+```{r}
+# Use data from numeric vectors
+x <- 1:10; y = x*x
+# Basic plot
+qplot(x,y)
+# Add line
+qplot(x, y, geom=c("point", "line"))
+# Use data from a data frame
+qplot(mpg, wt, data=mtcars)
+```
+
+
 
 
 
