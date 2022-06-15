@@ -287,4 +287,66 @@ qplot(mpg, wt, data=mtcars)
 
 #### Box plot, dot plot y violin plot
 
+Para crear graficos diferentes a scatter plot con **qplot()** es necesario especificar la geometria de la grafica:
+
+- geom = “boxplot”: dibuja un boxplot(grafico de cajas)
+- geom = “dotplot”: dibuja un grafico de puntos(dot plot). Los argumentos suplementarios stackdir = "center" y binaxis = "y" son necesarios.
+- geom = “violin”: dibuja un grafico de violin(violin plot). El argumento trim se establece en FALSE.
+
+```{r}
+# Plot basico a partir de vectores numericos
+x <- "1"
+y <- rnorm(100)
+qplot(x, y, geom="boxplot")
+
+# Boxplot basico a partir de un dataframe
+qplot(group, weight, data = PlantGrowth, 
+      geom=c("boxplot"))
+
+# Dot plot
+qplot(group, weight, data = PlantGrowth, 
+      geom=c("dotplot"), 
+      stackdir = "center", binaxis = "y",
+      binwidth = 0.09)
+
+# Violin plot
+qplot(group, weight, data = PlantGrowth, 
+      geom=c("violin"), trim = FALSE)
+```
+
+
+#### Histogramas y gráficos de densidad
+
+De la misma manera que los graficos anteriores, para dibujar histogramas y graficos de densidad necesitamos definir la geometria de la grafica.
+
+##### Histogram Plot
+```{r}
+# Basic histogram
+qplot(mpg$hwy, geom = "histogram", bins = 10)
+```
+
+##### Density Plot
+
+```{r}
+# Basic density plot
+qplot(x = mpg$hwy, geom = "density")
+```
+
+#### **ggplot()**
+
+El punto de partida para crear un gráfico es utilizar la función ggplot con la siguiente estructura básica:
+
+```
+plot <- ggplot(data, aes(x_variable, y_variable)) + geom_graph.type()
+print(plot)
+```
+- **data** es un dataframe que contiene las variables que se quieren graficar
+- **aes** especifica que variables se van a graficar. Aunque la palabra *aes* se refiere a la estética, en ggplot no se relaciona con el aspecto visual del gráfico, sino con los datos que se quieren ver en el gráfico. Especifica lo que el gráfico presenta en lugar de cómo se presenta.
+- **geom_graph.type** especifica que tipo de grafico se quiere hacer. Los graficos mas comunes son:
+  - *geom_point()* scatterplot
+  - *geom_boxplot()* boxplot
+  - *geom_histogram()* histograma
+  - *geom_bar()* bar plot
+  
+
 
