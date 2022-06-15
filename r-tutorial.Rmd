@@ -326,7 +326,6 @@ qplot(mpg$hwy, geom = "histogram", bins = 10)
 ```
 
 ##### Density Plot
-
 ```{r}
 # Basic density plot
 qplot(x = mpg$hwy, geom = "density")
@@ -347,6 +346,46 @@ print(plot)
   - *geom_boxplot()* boxplot
   - *geom_histogram()* histograma
   - *geom_bar()* bar plot
-  
+
+El tipo de gráfico que se quiere hacer tiene que coincidir con las clases de las entradas de la funcion. Por ejemplo, un scatterplot requiere que ambas variables sean numéricas. Un boxplot requiere que la variable x sea un factor y la variable y sea numérica.
+
+Una práctica útil al hacer ggplots es asignar el gráfico a un objeto y luego 'imprimirlo' por separado. A medida que un ggplot se complica, esto lo hará mucho más fácil de construir.
+
+##### Ejemplos con ggplot()
+
+```{r}
+#  Data load
+data(iris)
+
+# Boxplot
+plot1 <- ggplot(iris, aes(Species, Petal.Length)) +
+  geom_boxplot()
+print(plot1)
+
+# Histogram
+plot2 <- ggplot(iris, aes(Petal.Length)) +
+  geom_histogram(binwidth = 0.25)
+print(plot2)
+
+# Scatter Plot
+plot3 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
+  geom_point()
+print(plot3)
+
+# Scatter Plot + Categorical variables
+plot4 <- ggplot(iris, aes(Sepal.Length, Petal.Length, colour = Species)) +
+  geom_point()
+print(plot4)
+
+# Violin Plot
+plot5 <- ggplot(iris, aes(x = Species, y = Sepal.Width), color = Species, fill=Species, alpha = 0.25) +
+  geom_violin()
+print(plot5)
+## V2
+ggplot(iris) + 
+  geom_violin(aes(x = Species, y = Sepal.Width, color = Species, fill=Species), 
+              alpha = 0.25)
+
+```
 
 
