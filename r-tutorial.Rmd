@@ -1,36 +1,644 @@
 ---
 title: " Desarrollo de un Tutorial R"
-author: "Rances Rodriguez-, Deimer Castillo -, Iveth Medina -2183199"
+author: "Rances Rodriguez - 2182052, Deimer Castillo - 2101154, Iveth Medina - 2183199"
 date: '2022-06-11'
 output:
   html_notebook: default
 ---
 
+
 ### 1. Estructuras de control en R
-##### 1.1 If
-##### 1.2 For
-```{r }
+Las estructuras permiten establecer condicionales, las estructuras de control mas utilizadas son: if, else, for, while, etc. 
+
+##### 1.1 If-else
+La estructura para este condicional es la siguiente:
+
+######    if(condicion){
+######      operaciones_si_se_cumple
+######    } else {
+######      operaciones_no_se_cumple
+######    }
+
+Ejemplo básico usando la estructura, comparando dos números:
+
+```{r if}
+if(4>3){
+  "verdadero"
+}else{
+  "Falso"
+}
 
 ```
 
+##### 1.2 For
+Para esta estructura de control, la cual realiza un bucle, para mostrar el resultado de este se debe utilizar 'print()', así:
+
+######    for(elemento in objeto){
+######      print(operaciones_para_bucle)
+######    }
+
+Ejemplo sencillo, donde se elevan al cuadrado los números del 1 al 5:
+
+```{r for}
+for(numero in 1:5){
+  print(numero^2)
+}
+
+```
+
+##### 1.3 While
+Esta estructura de control de igual modo realiza bucles pero con condición, para mostrar los resultados se debe usar 'print' y su sintaxis es la siguiente:
+
+######    while(condicion){
+######      print(operaciones_para_bucle)
+######    }
+
+Ejemplo, en este ejercicio se busca comparar si un número es menor a 5, si lo es imprime verdadero y aumenta 1, el bucle termina cuando esto ya no se cumple:
+
+```{r while}
+numero <-0
+while(numero < 5){
+  print("Verdadero")
+  numero <- numero+1
+}
+
+```
 ### 2. Vectores en R
 ##### 2.1 Creación de vectores
-```{r creacion}
-c(1, 2, 3, 4)
+Para crear vectores se utiliza la siguiente sintaxis: '*nombre_vector <- c(elementos)*' o '*nombre_vector <- rango*'. Los elemnetos deben estar separados por comas y si son cadenas de textos deben ir entre comillas.
+
+Ejemplo con las dos opciones:
+
+```{r creacion v1}
+vector1 <-c(10, 21, 3, 4, 1)
+vector1
 ```
+
+```{r creacion v2}
+vector2 <- 1:5
+vector2
+```
+
 ##### 2.2 Indexación de vectores
+La sintaxis para ver elementos de un vector por su posición es la siguiente: '*nombre_vector[c(indices, indices)]*'. Para extraer elementos desde una posición hasta otra se utiliza: '*nombre_vector[c(indice:indice)]*'
+
+Ejemplo 1: se utiliza el vector ya creado '*vector1*', para ver los elementos de los indices de la posición 2 a la posición 5:
+
+```{r indices1}
+vector1[2:5]
+```
+
+Ejemplo 2: se utiliza el vector ya creado '*vector1*', para ver los elementos de los indices de la posición 2 y la posición 5:
+
+```{r indices}
+vector1[c(2,5)]
+```
+
 ##### 2.3 Edición de vectores
+Para editar un vector se hace muestra en el siguiente ejemplo utilizando el primer vector creado:
+
+```{r creacion editar_vector}
+vector_editado <- c(vector1, 5)
+vector_editado
+```
+
+##### 2.4 Secuencia de números utilizando un generador congruencial lineal
+
+Para generar la secuencia con un generador congruencial, se debe definir una semilla, el valor de c, el modulo y el valor de a para generar los valores aleatorios y generar las muestras aleatorias:
+Ejemplo:
+
+```{r generador congruencial lineal}
+m <- 10
+x0 <- 27
+modulo <- 100
+a <- 17
+c <- 43
+
+vector <- c(m)
+vector[1] <- x0
+for (i in 2:m){
+  vector[i] <- (vector[i-1]*a+c)%%modulo
+}
+vector
+aleatorios <- vector/modulo
+aleatorios
+
+```
 
 ### 3. Listas y matrices en R
-##### 3.1 Operaciones básicas 
+
+##### 3.1 Listas
+Para crear listas se usa la función 'list()', donde se agregan los elementos que deseamos contenga la lista. A cada elemento de la lista se le puede asignar un nombre '*list("nombre_list"= elemento)*'.
+
+Ejemplo:
+
+```{r listas1}
+lista1 <- list("perro", "gato", "vaca")
+lista1
+```
+
+Las listas también pueden contener otras listas y vectores, ejemplo:
+
+```{r listas2}
+lista2 <- list("lista_animales"=lista1, "vector_1"=vector1, "vector_2"=vector2)
+lista2
+```
+
+##### 3.2 Matrices
+Para la creación de matrices se utiliza la función '*matrix()*'. Para especificar el número de filas y columnas se usa '*nrow*' y '*ncol*' respectivamente.
+
+Ejemplo 1, se crea una matriz 3x3 con números del 1 al 9:
+
+```{r matriz}
+matrix(1:9, nrow=3, ncol=3)
+```
+
+Otra forma para crear matrices es uniendo vectores, con '*rbind()*' usando cada vector como una fila.
+Ejemplo 2:
+
+```{r matriz con rbind}
+#creamos dos vectores
+v1 <-c(1,2)
+v2 <-c(3,4)
+#usamos la función rbind()
+matriz <- rbind(v1, v2)
+matriz
+```
+
+También para crear matrices uniendo vectores se puede usar la función '*cbind()*' usando cada vector como una columna.
+Ejemplo 3:
+
+```{r matriz con cbind}
+#usamos la función rbind() y los vectore v1 y v2
+matriz <- cbind(v1, v2)
+matriz
+```
+
+
+##### 3.3 Operaciones básicas matriciales 
+Las operaciones básicas son suma, resta, mulplicación, traspuesta, inversa etc.
+
+##### 3.3.1 Suma y resta de dos matrices
+Se tienen dos matrices de igual dimensión y se procede a realizar la suma y resta con '*+ y -*' respectivamente.
+
+```{r suma  yresta matrices igual dimensión}
+#matriz 1
+m1 <-matrix(1:4, nrow=2, ncol=2)
+m1
+#matriz 2
+m2 <-matrix(5:8, nrow=2, ncol=2)
+m2
+#suma m1+m2
+suma=m1+m2
+suma
+#resta m1-m2
+resta=m1-m2
+resta
+```
+
+##### 3.3.2 Multiplicación de matriz
+Para multiplicación matricial de igual tamaño se usa '%*%'. Si se quiere multiplicar dos matrices elemento por elemento se usa 'matriz1 * matriz2'. 
+Ejemplo:
+
+```{r multiplicación}
+#matriz 1
+m1 <-matrix(1:4, nrow=2, ncol=2)
+m1
+#matriz 2
+m2 <-matrix(5:8, nrow=2, ncol=2)
+m2
+#multiplicacion matricial
+mult=m1%*%m2
+mult
+```
+
+##### 3.3.3 Matriz Traspuesta
+Para trasponer una matriz se una la función '*t()*'.
+Ejemplo:
+
+```{r matriz trapuesta}
+#matriz 1
+m1 <-matrix(1:4, nrow=2, ncol=2)
+m1
+#usamos la matriz 1 m1
+t(m1)
+```
+
+##### 3.3.4 Potencia de una matriz
+Para calcular la potencia de una matriz se usa '*%^%*', o simplemete multiplicamos la matriz por ella misma.
+Ejemplo:
+
+```{r potencia matriz}
+library(expm)
+#matriz 1
+m1 <-matrix(1:4, nrow=2, ncol=2)
+m1
+#potencia %^%
+pot1=m1 %^% 2
+pot1
+#potencia m1*m1
+pot2=m1%*%m1
+pot2
+```
+
+##### 3.3.5 Determinante de una matriz
+Para calcular el determinante de una matriz se usa '*det()*'.
+Ejemplo:
+
+```{r determinate matriz}
+#matriz 1
+m1 <-matrix(1:4, nrow=2, ncol=2)
+m1
+#determinante
+det(m1)
+```
+
+##### 3.3.6 Inversa de una matriz
+Para calcular la inversa de una matriz se usa '*solve()*'.
+Ejemplo:
+
+```{r inversa matriz}
+#matriz 1
+m1 <-matrix(1:4, nrow=2, ncol=2)
+m1
+#inversa 
+solve(m1)
+``` 
 
 ### 4. Dataframes
 ##### 4.1 Visualización y manipulación
 
+```{r }
+library(readr)
+movies <- read.csv("~/movies.csv")
+mean(movies$popularity)
+var(movies$popularity)
+sd(movies$popularity)
+```
+
 ### 5. Funciones en R
+La funcion que se escogio fue la de summary(), este comando se encarga de mostrar los valores finales de variables generales sacadas del data frame, como en las cuales sen encuentran el mínimo, máximo, media, mediana, primer y tercer cuartil; la forma de invocar la funcion en la siguiente summary(nombre del dataset$nombre de la columna), en nuestro caso la forma correcta de hacerlo es:
+
+```{r }
+summary(movies$popularity)
+```
 
 ### 6. Manejo de archivos con R
 
+#### **fs**
+Existen diferentes maneras de manejar archivos con R. Para este tutorial mostraremos como manejar archivos con el paquete **fs**, que proporciona una interfaz uniforme y multiplataforma para las operaciones del sistema de archivos. Las funciones del paquete fs se dividen en cuatro categorias principales: 
+
+- path_: para manipular y contruir rutas
+- file_: para manipular y construir archivos
+- dir_: para manipular y construir directorios
+- links_: para manipular y construir enlaces
+`
+```{r}
+library(fs)
+```
+
+A continuacion se presentan algunas acciones basicas para manipular archivos en R. Para una lista completa de las funcionalidades de el paquete **fs** revisar la documentacion [Package ‘fs’](https://cran.r-project.org/web/packages/fs/fs.pdf) 
+
+#### copy --- Copia archivos, directorios o enlaces
+
+##### Descripcion
+- file_copy() copia archivos.
+- link_copy() crea un nuevo enlace apuntando a la misma ubicacion del enlace anterior.
+- dir_copy() copia un directorio recursivamente en una nueva ubicacion.
+
+##### Uso
+- file_copy(path, new_path, overwrite = FALSE)
+- dir_copy(path, new_path, overwrite = FALSE)
+- link_copy(path, new_path, overwrite = FALSE)
+
+##### Argumentos
+- path Un vector de caracteres de una o mas rutas.
+- new_path Un vector de caracteres de rutas a nuevas ubicaciones.
+- overwrite Sobrescribe archivos si existen. Si es FALSE y el archivo existe generara un error.
+
+##### Ejemplos
+`
+```{r}
+
+file_create("foo")
+file_copy("foo", "bar")
+# try(file_copy("foo", "bar"))
+file_copy("foo", "bar", overwrite = TRUE)
+file_delete(c("foo", "bar"))
+dir_create("foo")
+
+# Create a directory and put a few files in it
+files <- file_create(c("foo/bar", "foo/baz"))
+file_exists(files)
+
+# Copy the directory
+dir_copy("foo", "foo2")
+file_exists(path("foo2", path_file(files)))
+
+# Create a link to the directory
+link_create(path_abs("foo"), "loo")
+link_path("loo")
+link_copy("loo", "loo2")
+link_path("loo2")
+
+# Cleanup
+dir_delete(c("foo", "foo2"))
+link_delete(c("loo", "loo2"))
+
+```
+
+
+#### create --- Crea archivos, directorios, o enlaces
+
+##### Descripcion
+Las funciones file_create() y dir_create() se aseguran de que la ruta existe; si ya existe se se dejará sin modificar. Esto significa que en comparación con file.create(), file_create() no truncará un archivo existente, y en comparación con dir.create(), dir_create() ignorará silenciosamente los directorios existentes.
+
+##### Uso
+- file_create(path, ..., mode = "u=rw,go=r")
+- dir_create(path, ..., mode = "u=rwx,go=rx", recurse = TRUE, recursive)
+- link_create(path, new_path, symbolic = TRUE)
+`
+##### Argumentos
+- path Un vector de caracteres de una o mas rutas. Para link_create(), este es el destino.
+- ... Argumentos adicionales pasados a path()
+- mode Si se crea un archivo/directorio, ¿qué modo debe tener? Los enlaces no tienen modo; heredan el modo del archivo al que enlazan.
+- recurse ¿se deben crear directorios intermedios si no existen?
+- recursive (Deprecated) Si es TRUE se recurre completamente.
+- new_path La ruta donde se debe crear el enlace.
+- symbolic Valor booleano que determina si el enlace debe ser simbólico (por defecto) o fuerte.
+
+##### Ejemplos
+
+```{r}
+file_create("foo")
+is_file("foo")
+# dir_create applied to the same path will fail
+try(dir_create("foo"))
+dir_create("bar")
+is_dir("bar")
+# file_create applied to the same path will fail
+try(file_create("bar"))
+# Cleanup
+file_delete("foo")
+dir_delete("bar")
+```
+
+#### delete --- Elimina archivos, directorios y enlaces
+
+##### Descripcion
+file_delete() y link_delete() elimina archivos y enlaces. En comparación con file.remove siempre
+falla si no pueden eliminar el objeto en lugar de cambiar el valor de retorno o señalar una advertencia. Si alguna de las entradas son directorios, se pasan a dir_delete(), por lo que file_delete() puede utilizarse para borrar cualquier objeto del sistema de archivos.
+
+dir_delete() borrará primero el contenido del directorio y luego eliminará el directorio.
+`
+##### Uso
+- file_delete(path)
+- dir_delete(path)
+- link_delete(path)
+
+##### Argumentos
+- path Un vector de caracteres de una o mas rutas.
+
+##### Ejemplos
+```{r}
+# create a directory, with some files and a link to it
+dir_create("dir")
+files <- file_create(path("dir", letters[1:5]))
+link <- link_create(path_abs("dir"), "link")
+# All files created
+dir_exists("dir")
+file_exists(files)
+link_exists("link")
+file_exists(link_path("link"))
+# Delete a file
+file_delete(files[1])
+file_exists(files[1])
+# Delete the directory (which deletes the files as well)
+dir_delete("dir")
+file_exists(files)
+dir_exists("dir")
+# The link still exists, but what it points to does not.
+link_exists("link")
+dir_exists(link_path("link"))
+# Delete the link
+link_delete("link")
+link_exists("link")
+```
+`
+#### **readr**
+
+El paquete **readr** ofrece funciones para leer data de archivos rectangulares en R. Este paquete hace parte del tidyverse base y sus funciones se ocupan de convertir archivos en data frames.
+```{r}
+library(tidyverse)
+```
+
+Para leer un conjunto de datos rectangulares con readr, se combinan dos partes: una función que analiza las líneas del archivo en campos individuales y una especificación de columna. Una especificación de columna describe cómo debe convertirse cada columna de un vector de caracteres a un tipo de datos específico (por ejemplo, carácter, numérico, fecha y hora, etc.). En ausencia de una especificación de columna, readr deducirá los tipos de columna a partir de los datos.
+
+readr soporta los siguientes formatos de archivo con estas funciones read_*():
+
+- read_csv(): archivos de valores separados por comas (CSV)
+- read_tsv(): archivos de valores separados por tabulaciones (TSV)
+- read_delim(): archivos delimitados (CSV y TSV son casos especiales importantes)
+- read_fwf(): archivos de ancho fijo
+- read_table(): archivos separados por espacios en blanco
+- read_log(): archivos de registro web
+
+Todas estas funciones tienen una sintaxis similar: una vez se domine una, se podran utilizar las demás con facilidad.
+
+El primer argumento de read_csv() es el más importante: es la ruta del archivo a leer. También se puede suministrar un archivo csv como argumento. Esto es útil para experimentar con readr y para crear ejemplos reproducibles:
+
+```{r}
+# Reading data from a CVS file
+read_csv('https://vincentarelbundock.github.io/Rdatasets/csv/AER/Guns.csv')
+```
+```{r}
+# Reading data from inline argument
+read_csv("a,b,c
+          1,2,3
+          4,5,6")
+```
+
+
+Cuando se ejecuta read_csv() se imprime una especificación de columna que da el nombre y el tipo de cada columna. A veces hay algunas líneas de metadatos en la parte superior del archivo. Se puede utilizar skip = n para omitir las primeras n líneas; o utilizar comment = "#" para eliminar todas las líneas que empiezan con (por ejemplo) #.
+
+```{r}
+read_csv("The first line of metadata
+          The second line of metadata
+          x,y,z
+          1,2,3", skip = 2)
+```
+```{r}
+read_csv("# A comment I want to skip
+          x,y,z
+          1,2,3", comment = "#")
+```
+
+
+Los datos pueden no tener nombres de columna. Se puede utilizar col_names = FALSE para indicar a read_csv() que no trate la primera fila como encabezados, y en su lugar los etiquete secuencialmente de $X_{1}$ a $X_{n}$:
+
+```{r}
+read_csv('https://vincentarelbundock.github.io/Rdatasets/csv/AER/Guns.csv', col_names = FALSE)
+```
+Otra opción que suele necesitar ajustes es na: especifica el valor (o los valores) que se utilizan para representar los valores que faltan en el archivo:
+
+```{r}
+read_csv("a,b,c\n1,2,.", na = ".")
+```
+
+
+
+
 ### 7. Ejemplos de visualización de datos
+
+### **ggplot2**
+
+**ggplot2** es un paquete potente y flexible de R, implementado por Hadley Wickham, para producir gráficos elegantes.
+
+El concepto detrás de ggplot2 divide los gráficos en tres partes fundamentales: **Plot = Datos + Estética + Geometría.**
+
+Los componentes principales de cada gráfico pueden definirse de la siguiente manera:
+
+- **Datos** es un dataframe
+- **Estetica** se utiliza para indicar las variables x e y. También se puede utilizar para controlar el color, el tamaño o la forma de los puntos, la altura de las barras, etc..... 
+- **Geometria** define el tipo de gráfico (histograma, diagrama de caja, diagrama de líneas, diagrama de densidad, diagrama de puntos, ....)
+
+Hay dos funciones principales en el paquete ggplot2: las funciones **qplot()** y **ggplot()**.
+
+- qplot() se refiere a un gráfico rápido, que puede utilizarse para producir fácilmente gráficos sencillos.
+
+- La función ggplot() es más flexible y robusta que qplot para construir un gráfico pieza por pieza.
+
+```{r}
+library(tidyverse)
+```
+
+#### **qplot()**
+
+Un formato simplificado de qplot() es el siguiente:
+```
+qplot(x, y=NULL, data, geom="auto", xlim = c(NA, NA), ylim =c(NA, NA))
+```
+- x : valores de x
+- y : valores de y(opcional)
+- data : data frame a usar (opcional).
+- geom : Vector de caracteres que especifica la geometria(geom) a utilizar. Por defecto es "point" si se especifican x, y, e "histogram" si sólo se especifica x.
+- xlim, ylim: limites del eje x, y
+
+#### Scatter Plots
+El gráfico puede crearse utilizando datos de vectores numéricos o de un dataframe:
+
+```{r}
+# Usando vectores numericos
+x <- 1:10; y = x*x
+# Plot basico
+qplot(x,y)
+# Plot basico + linea
+qplot(x, y, geom=c("point", "line"))
+# Usando dataframes
+qplot(mpg, wt, data=mtcars)
+```
+
+
+#### Box plot, dot plot y violin plot
+
+Para crear graficos diferentes a scatter plot con **qplot()** es necesario especificar la geometria de la grafica:
+
+- geom = “boxplot”: dibuja un boxplot(grafico de cajas)
+- geom = “dotplot”: dibuja un grafico de puntos(dot plot). Los argumentos suplementarios stackdir = "center" y binaxis = "y" son necesarios.
+- geom = “violin”: dibuja un grafico de violin(violin plot). El argumento trim se establece en FALSE.
+
+```{r}
+# Plot basico a partir de vectores numericos
+x <- "1"
+y <- rnorm(100)
+qplot(x, y, geom="boxplot")
+
+# Boxplot basico a partir de un dataframe
+qplot(group, weight, data = PlantGrowth, 
+      geom=c("boxplot"))
+
+# Dot plot
+qplot(group, weight, data = PlantGrowth, 
+      geom=c("dotplot"), 
+      stackdir = "center", binaxis = "y",
+      binwidth = 0.09)
+
+# Violin plot
+qplot(group, weight, data = PlantGrowth, 
+      geom=c("violin"), trim = FALSE)
+```
+
+#### Histogramas y gráficos de densidad
+
+De la misma manera que los graficos anteriores, para dibujar histogramas y graficos de densidad necesitamos definir la geometria de la grafica.
+
+##### Histogram Plot
+```{r}
+# Basic histogram
+qplot(mpg$hwy, geom = "histogram", bins = 10)
+```
+
+##### Density Plot
+```{r}
+# Basic density plot
+qplot(x = mpg$hwy, geom = "density")
+```
+
+#### **ggplot()**
+
+El punto de partida para crear un gráfico es utilizar la función ggplot con la siguiente estructura básica:
+`
+```
+plot <- ggplot(data, aes(x_variable, y_variable)) + geom_graph.type()
+print(plot)
+```
+- **data** es un dataframe que contiene las variables que se quieren graficar
+- **aes** especifica que variables se van a graficar. Aunque la palabra *aes* se refiere a la estética, en ggplot no se relaciona con el aspecto visual del gráfico, sino con los datos que se quieren ver en el gráfico. Especifica lo que el gráfico presenta en lugar de cómo se presenta.
+- **geom_graph.type** especifica que tipo de grafico se quiere hacer. Los graficos mas comunes son:
+  - *geom_point()* scatterplot
+  - *geom_boxplot()* boxplot
+  - *geom_histogram()* histograma
+  - *geom_bar()* bar plot
+
+El tipo de gráfico que se quiere hacer tiene que coincidir con las clases de las entradas de la funcion. Por ejemplo, un scatterplot requiere que ambas variables sean numéricas. Un boxplot requiere que la variable x sea un factor y la variable y sea numérica.
+
+Una práctica útil al hacer ggplots es asignar el gráfico a un objeto y luego 'imprimirlo' por separado. A medida que un ggplot se complica, esto lo hará mucho más fácil de construir.
+
+##### Ejemplos con ggplot()
+`
+```{r}
+#  Data load
+data(iris)
+
+# Boxplot
+plot1 <- ggplot(iris, aes(Species, Petal.Length)) +
+  geom_boxplot()
+print(plot1)
+
+# Histogram
+plot2 <- ggplot(iris, aes(Petal.Length)) +
+  geom_histogram(binwidth = 0.25)
+print(plot2)
+
+# Scatter Plot
+plot3 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
+  geom_point()
+print(plot3)
+
+# Scatter Plot + Categorical variables
+plot4 <- ggplot(iris, aes(Sepal.Length, Petal.Length, colour = Species)) +
+  geom_point()
+print(plot4)
+
+# Violin Plot
+plot5 <- ggplot(iris, aes(x = Species, y = Sepal.Width), color = Species, fill=Species, alpha = 0.25) +
+  geom_violin()
+print(plot5)
+## V2
+ggplot(iris) + 
+  geom_violin(aes(x = Species, y = Sepal.Width, color = Species, fill=Species), 
+              alpha = 0.25)
+
+```
 
 
