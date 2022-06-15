@@ -271,19 +271,20 @@ qplot(x, y=NULL, data, geom="auto", xlim = c(NA, NA), ylim =c(NA, NA))
 - xlim, ylim: limites del eje x, y
 
 #### Scatter Plots
+El gráfico puede crearse utilizando datos de vectores numéricos o de un dataframe:
 
 ```{r}
-# Use data from numeric vectors
+# Usando vectores numericos
 x <- 1:10; y = x*x
-# Basic plot
+# Plot basico
 qplot(x,y)
-# Add line
+# Plot basico + linea
 qplot(x, y, geom=c("point", "line"))
-# Use data from a data frame
+# Usando dataframes
 qplot(mpg, wt, data=mtcars)
 ```
 
 
-
+#### Box plot, dot plot y violin plot
 
 
